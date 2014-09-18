@@ -1,0 +1,17 @@
+{
+    "name": "stefantalen/omnikassa",
+    "description": "PHP library to interact with Rabobank OmniKassa",
+    "type": "library",
+    "keywords": ["rabobank", "omnikassa", "payment", "ideal"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "Stefan Talen",
+            "role" : "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/stefantalen/OmniKassa/issues",
+        "source": "https://github.com/stefantalen/OmniKassa"
+    }
+}
