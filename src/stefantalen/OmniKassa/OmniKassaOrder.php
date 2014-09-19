@@ -21,6 +21,11 @@ class OmniKassaOrder
      * @var $currency string
      */
     protected $currency;
+    
+    /**
+     * @var $interfaceVersion string
+     */
+    protected $interfaceVersion = 'HP_1.0';
         
     public function setMerchantId($id)
     {
@@ -67,5 +72,10 @@ class OmniKassaOrder
     public function getCurrency()
     {
         return $this->currency;
+    }
+    
+    public function getInterfaceVersion()
+    {
+        return $this->interfaceVersion;
     }
 }
