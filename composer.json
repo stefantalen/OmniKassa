@@ -13,5 +13,8 @@
     "support": {
         "issues": "https://github.com/stefantalen/OmniKassa/issues",
         "source": "https://github.com/stefantalen/OmniKassa"
+    },
+    "autoload": {
+        "psr-0": { "stefantalen\\OmniKassa\\": "src/" }
     }
 }
