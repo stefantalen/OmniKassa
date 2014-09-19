@@ -6,14 +6,19 @@ use stefantalen\OmniKassa\OmniKassaOrder;
 
 class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
 {
+    protected $order;
+    
+    public function setUp()
+    {
+        $this->order = new OmniKassaOrder();
+    }
     /**
      * @dataProvider invalidMerchantIds
      * @expectedException \LengthException
      */
     public function testMerchantId($merchantId)
     {
-        $order = new OmniKassaOrder();
-        $order->setMerchantId($merchantId);
+        $this->order->setMerchantId($merchantId);
     }
     
     public function invalidMerchantIds()
@@ -30,8 +35,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidCurrency()
     {
-       $order = new OmniKassaOrder();
-       $order->setCurrency('NL');
+       $this->order->setCurrency('NL');
     }
 
     /**
@@ -40,21 +44,18 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnknownCurrency()
     {
-       $order = new OmniKassaOrder();
-       $order->setCurrency('NLG');
+       $this->order->setCurrency('NLG');
     }
     
     public function testValidCurrency()
     {
-        $order = new OmniKassaOrder();
-        $order->setCurrency('EUR');
-        $this->assertEquals('987', $order->getCurrency());
+        $this->order->setCurrency('EUR');
+        $this->assertEquals('987', $this->order->getCurrency());
     }
     
     public function testInterfaceVersion()
     {
-        $order = new OmniKassaOrder();
-        $this->assertEquals('HP_1.0', $order->getInterfaceVersion());
+        $this->assertEquals('HP_1.0', $this->order->getInterfaceVersion());
     }
     
 }
