@@ -26,6 +26,11 @@ class OmniKassaOrder
      * @var $interfaceVersion string
      */
     protected $interfaceVersion = 'HP_1.0';
+    
+    /**
+     * @var $normalReturnUrl string
+     */
+    protected $normalReturnUrl;
         
     public function setMerchantId($id)
     {
@@ -73,9 +78,42 @@ class OmniKassaOrder
     {
         return $this->currency;
     }
-    
+        
     public function getInterfaceVersion()
     {
         return $this->interfaceVersion;
+    }
+    
+    /**
+     * Encodes the given URL according to RFC 3986 and checks the length
+     * @param $url string The URL
+     * @return \LengthException|string
+     */
+    protected function validateUrl($url)
+    {
+        // Encode string according to RFC 3986
+        $encodedUrl = rawurlencode($url);
+        if(strlen($encodedUrl) > 512) {
+            throw new \LengthException('The normalReturnUrl cannot be longer than 512 characters');
+        }
+        return $encodedUrl;
+    }
+    
+    /**
+     * @param $url string The URL where the user returns after the payment
+     * @return LengthException|OmniKassaOrder
+     */
+    public function setNormalReturnUrl($url)
+    {
+        $this->normalReturnUrl = $this->validateUrl($url);
+        return $this;
+    }
+    
+    /**
+     * @return string The URL where the user returns after the payment
+     */
+    public function getNormalReturnUrl()
+    {
+        return $this->normalReturnUrl;
     }
 }
