@@ -60,6 +60,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @expectedException \LengthException
+     * @expectedExceptionMessage The normalReturnUrl cannot be longer than 512 characters
      */
     public function testLongNormalReturnUrl()
     {

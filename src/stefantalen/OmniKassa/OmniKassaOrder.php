@@ -92,14 +92,15 @@ class OmniKassaOrder
     /**
      * Encodes the given URL according to RFC 3986 and checks the length
      * @param $url string The URL
+     * @param $property string The property that is being checked
      * @return \LengthException|string
      */
-    protected function validateUrl($url)
+    protected function validateUrl($url, $property)
     {
         // Encode string according to RFC 3986
         $encodedUrl = rawurlencode($url);
         if (strlen($encodedUrl) > 512) {
-            throw new \LengthException('The normalReturnUrl cannot be longer than 512 characters');
+            throw new \LengthException(sprintf('The %s cannot be longer than 512 characters', $property));
         }
         return $encodedUrl;
     }
@@ -110,7 +111,7 @@ class OmniKassaOrder
      */
     public function setNormalReturnUrl($url)
     {
-        $this->normalReturnUrl = $this->validateUrl($url);
+        $this->normalReturnUrl = $this->validateUrl($url, 'normalReturnUrl');
         return $this;
     }
     
@@ -128,7 +129,7 @@ class OmniKassaOrder
      */
     public function setAutomaticResponseUrl($url)
     {
-        $this->automaticResponseUrl = $this->validateUrl($url);
+        $this->automaticResponseUrl = $this->validateUrl($url, 'automaticResponseUrl');
         return $this;
     }
     
