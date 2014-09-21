@@ -31,6 +31,11 @@ class OmniKassaOrder
      * @var $normalReturnUrl string
      */
     protected $normalReturnUrl;
+    
+    /**
+     * @var $automaticResponseUrl string
+     */
+    protected $automaticResponseUrl;
         
     public function setMerchantId($id)
     {
@@ -115,5 +120,23 @@ class OmniKassaOrder
     public function getNormalReturnUrl()
     {
         return $this->normalReturnUrl;
+    }
+    
+    /**
+     * @param $url string The URL where the cronjob returns after the payment
+     * @return LengthException|OmniKassaOrder
+     */
+    public function setAutomaticResponseUrl($url)
+    {
+        $this->automaticResponseUrl = $this->validateUrl($url);
+        return $this;
+    }
+    
+    /**
+     * @return string The URL where the user returns after the payment
+     */
+    public function getAutomaticResponseUrl()
+    {
+        return $this->automaticResponseUrl;
     }
 }
