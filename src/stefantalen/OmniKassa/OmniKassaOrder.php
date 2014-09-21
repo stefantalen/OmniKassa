@@ -39,7 +39,7 @@ class OmniKassaOrder
         
     public function setMerchantId($id)
     {
-        if(strlen($id) !== 15) {
+        if (strlen($id) !== 15) {
             throw new \LengthException('The Merchant ID should contain 15 characters');
         }
         $this->merchantId = $merchantId;
@@ -56,7 +56,7 @@ class OmniKassaOrder
      */
     public function setCurrency($currencyCode)
     {
-        if(!preg_match('/^[A-Z]{3}$/', $currencyCode)) {
+        if (!preg_match('/^[A-Z]{3}$/', $currencyCode)) {
             throw new \InvalidArgumentException('The given currency does not comply with the ISO 4217 standard');
         }
         $currencyCodes = array(
@@ -71,7 +71,7 @@ class OmniKassaOrder
             'SEK' => '752',
             'DKK' => '208',
         );
-        if(!array_key_exists($currencyCode, $currencyCodes)) {
+        if (!array_key_exists($currencyCode, $currencyCodes)) {
             throw new \InvalidArgumentException(sprintf('The requested currency "%s" is not available', $currencyCode));
         }
         $this->currency = $currencyCodes[$currencyCode];
@@ -98,7 +98,7 @@ class OmniKassaOrder
     {
         // Encode string according to RFC 3986
         $encodedUrl = rawurlencode($url);
-        if(strlen($encodedUrl) > 512) {
+        if (strlen($encodedUrl) > 512) {
             throw new \LengthException('The normalReturnUrl cannot be longer than 512 characters');
         }
         return $encodedUrl;
