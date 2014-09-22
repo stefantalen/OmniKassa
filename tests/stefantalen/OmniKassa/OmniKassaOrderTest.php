@@ -106,4 +106,59 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     {
         $this->order->setKeyVersion('11111111111');
     }
+    
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Please set a currency first
+     */
+    public function testNoCurrencyAmount()
+    {
+        $this->order->setAmount(106.55);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The amount can only contain numerics and one dot
+     */
+    public function testInvalidAmount()
+    {
+        $this->order
+            ->setCurrency('EUR')
+            ->setAmount('9.9aa')
+        ;
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The amount cannot be over 9.999.999.999,99
+     */
+    public function testAmountTooHigh()
+    {
+        $this->order
+            ->setCurrency('EUR')
+            ->setAmount('10000000000.23')
+        ;
+    }
+    
+    /**
+     * @dataProvider validAmounts
+     */
+    public function testAmount($currency, $amount, $result)
+    {
+        $this->order
+            ->setCurrency($currency)
+            ->setAmount($amount)
+        ;
+        $this->assertEquals($result, $this->order->getAmount());
+    }
+    
+    public function validAmounts()
+    {
+        return array(
+            array('EUR', '24.99', '2499'),
+            array('EUR', '2499', '249900'),
+            array('JPY', '2499', '2499'),
+            array('JPY', '249900', '249900'),
+        );
+    }
 }

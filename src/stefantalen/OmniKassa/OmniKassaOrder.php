@@ -46,6 +46,11 @@ class OmniKassaOrder
      * @var $keyVersion string
      */
     protected $keyVersion;
+    
+    /**
+     * @var $amount string
+     */
+    protected $amount;
         
     public function setMerchantId($id)
     {
@@ -180,5 +185,45 @@ class OmniKassaOrder
         }
         $this->keyVersion = $version;
         return $this;
+    }
+    
+    /**
+     * Set the amount of the order
+     * @param $amount string
+     * @return \LogicException|\InvalidArgumentException|OmniKassaOrder
+     */
+    public function setAmount($amount)
+    {
+        // A currency must be set
+        if (null === $this->currency) {
+            throw new \LogicException('Please set a currency first');
+        }
+        // Check if the amount is a valid value
+        if (!preg_match('/^([0-9]+)(\.{1}[0-9]{1,2})?$/', $amount, $matches)) {
+            throw new \InvalidArgumentException('The amount can only contain numerics and one dot');
+        }
+        
+        // Add decimals to value the currency is not Japanese Yen
+        if ($this->currency !== '392') {
+            if (isset($matches[2])) {
+                $amount = $matches[1] . substr($matches[2], 1);
+            } else {
+                $amount = $matches[1] . '00';
+            }
+        }
+        // Check the maximum value
+        if ($amount > 999999999999) {
+            throw new \InvalidArgumentException('The amount cannot be over 9.999.999.999,99' );
+        }
+        $this->amount = $amount;
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 }
