@@ -81,4 +81,11 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(512, strlen($this->order->getAutomaticResponseUrl()));
     }
     
+    /**
+     * @expectedException \LengthException
+     */
+    public function testKeyVersion()
+    {
+        $this->order->setKeyVersion('11111111111');
+    }
 }

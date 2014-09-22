@@ -36,6 +36,11 @@ class OmniKassaOrder
      * @var $automaticResponseUrl string
      */
     protected $automaticResponseUrl;
+    
+    /**
+     * @var $keyVersion string
+     */
+    protected $keyVersion;
         
     public function setMerchantId($id)
     {
@@ -139,5 +144,19 @@ class OmniKassaOrder
     public function getAutomaticResponseUrl()
     {
         return $this->automaticResponseUrl;
+    }
+    
+    /**
+     * The version number of the secret key, can be found on the OmniKassa website
+     * @param $version string The version number
+     * @return \LengthException|OmniKassaOrder
+     */
+    public function setKeyVersion($version)
+    {
+        if (strlen($version) > 10) {
+            throw new \LengthException('The keyVersion has a maximum of 10 characters');
+        }
+        $this->keyVersion = $version;
+        return $this;
     }
 }
