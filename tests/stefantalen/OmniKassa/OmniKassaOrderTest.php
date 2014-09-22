@@ -179,4 +179,38 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     {
         $this->order->setOrderId('aBcDeFgIijklmnopqrstuvwxyz!');
     }
+    
+    /**
+     * @dataProvider invalidLanguages
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The given language code does not comply with the ISO 639-1 Alpha2 standard
+     */
+    public function testInvalidCustomerLanguage($language)
+    {
+       $this->order->setCustomerLanguage($language);
+    }
+    
+    public function invalidLanguages()
+    {
+        return array(
+            array('nld'),
+            array('NL'),
+        );
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The requested language "fy" is not available
+     */
+    public function testUnknownCustomerLanguage()
+    {
+       $this->order->setCustomerLanguage('fy');
+    }
+    
+    
+    public function testValidLanguage()
+    {
+        $this->order->setCustomerLanguage('nl');
+        $this->assertEquals('NL', $this->order->getCustomerLanguage());
+    }
 }

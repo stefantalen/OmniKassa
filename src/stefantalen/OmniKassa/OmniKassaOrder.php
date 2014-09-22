@@ -56,6 +56,11 @@ class OmniKassaOrder
      * @var $orderId string
      */
     protected $orderId;
+    
+    /**
+     * @var $customerLanguage string
+     */
+    protected $customerLanguage;
         
     public function setMerchantId($id)
     {
@@ -245,5 +250,43 @@ class OmniKassaOrder
         if (!preg_match('/^[a-z0-9]+$/i', $orderId)) {
             throw new \InvalidArgumentException('The orderId can only contain alphanumeric characters');
         }
+    }
+    
+    /**
+     * @param $language string The language in which the payment portal should be shown
+     * @return OmniKassaOrder
+     */
+    public function setCustomerLanguage($language)
+    {
+        // Only checking lower case characters since that is according to the standard
+        if (!preg_match('/^[a-z]{2}$/', $language)) {
+            throw new \InvalidArgumentException('The given language code does not comply with the ISO 639-1 Alpha2 standard');
+        }
+        $languages = array(
+            'cs', // Czech
+            'cy', // Welsh
+            'de', // German
+            'en', // English
+            'es', // Spanish
+            'fr', // French
+            'nl', // Dutch
+            'sk', // Swedish
+        );
+        if (!in_array($language, $languages)) {
+            throw new \InvalidArgumentException(sprintf('The requested language "%s" is not available', $language));
+        }
+        // Converting the given language to upper case because OmniKassa expects this
+        $this->customerLanguage = strtoupper($language);
+        
+        return $this;
+    }
+    
+    /**
+     * Get the customer language
+     * @return string
+     */
+    public function getCustomerLanguage()
+    {
+        return $this->customerLanguage;
     }
 }
