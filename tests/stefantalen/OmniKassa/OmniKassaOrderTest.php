@@ -256,4 +256,25 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $order->getPaymentMeanBrandList());
         $this->assertEquals(array('VISA', 'MAESTRO'), $order->getPaymentMeanBrandList());
     }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The expiration date should be in the future
+     */
+    public function testInvalidExpirationDate()
+    {
+        $this->order->setExpirationDate(new \DateTime());
+    }
+    
+    public function testValidExpirationDate()
+    {
+        $this->assertEquals(null, $this->order->getExpirationDate());
+        $this->assertInstanceOf(
+            'stefantalen\OmniKassa\OmniKassaOrder',
+            $this->order->setExpirationDate(
+                \DateTime::createFromFormat('d-m-Y H:i:s T', '01-01-2100 13:37:00 +0300')
+            )
+        );
+        $this->assertEquals('2100-01-01T13:37:00+0300', $this->order->getExpirationDate());
+    }
 }

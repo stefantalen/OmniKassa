@@ -67,6 +67,11 @@ class OmniKassaOrder
      */
     protected $paymentMeanBrandList;
     
+    /**
+     * @var expirationDate string
+     */
+    protected $expirationDate;
+    
     public function __construct()
     {
         $this->paymentMeanBrandList = array();
@@ -352,4 +357,29 @@ class OmniKassaOrder
     {
         return $this->paymentMeanBrandList;
     }
+    
+    /**
+     * Set the expiration date in ISO 8601 format
+     * @param $expirationDate \DateTime The date the payment expires
+     * @return \InvalidArgumentException|OmniKassaOrder
+     */
+    public function setExpirationDate(\DateTime $expirationDate)
+    {
+        if ($expirationDate <= new \DateTime()) {
+            throw new \InvalidArgumentException('The expiration date should be in the future');
+        }
+        $this->expirationDate = $expirationDate->format(\DateTime::ISO8601);
+        return $this;
+    }
+    
+    /**
+     * Get the expiration date
+     * @return string
+     */
+    public function getExpirationDate()
+    {
+        return $this->expirationDate;
+    }
+     
+    
 }
