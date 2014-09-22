@@ -51,6 +51,11 @@ class OmniKassaOrder
      * @var $amount string
      */
     protected $amount;
+    
+    /**
+     * @var $orderId string
+     */
+    protected $orderId;
         
     public function setMerchantId($id)
     {
@@ -225,5 +230,20 @@ class OmniKassaOrder
     public function getAmount()
     {
         return $this->amount;
+    }
+    
+    /**
+     * Set the order ID to give the transaction a reference
+     * @param $orderId string The order ID
+     * @return \LengthException|\InvalidArgumentException|OmniKassaOrder
+     */
+    public function setOrderId($orderId)
+    {
+        if (strlen($orderId) > 32) {
+            throw new \LengthException('The orderId has a maximum of 32 characters');
+        }
+        if (!preg_match('/^[a-z0-9]+$/i', $orderId)) {
+            throw new \InvalidArgumentException('The orderId can only contain alphanumeric characters');
+        }
     }
 }

@@ -161,4 +161,22 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             array('JPY', '249900', '249900'),
         );
     }
+    
+    /**
+     * @expectedException \LengthException
+     * @expectedExceptionMessage The orderId has a maximum of 32 characters
+     */
+    public function testLongOrderId()
+    {
+        $this->order->setOrderId('abcdefghijklmnopqrstuvwxyz1234567');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The orderId can only contain alphanumeric characters
+     */
+    public function testInvalidOrderId()
+    {
+        $this->order->setOrderId('aBcDeFgIijklmnopqrstuvwxyz!');
+    }
 }
