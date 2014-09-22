@@ -213,4 +213,47 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         $this->order->setCustomerLanguage('nl');
         $this->assertEquals('NL', $this->order->getCustomerLanguage());
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage setPaymentMeanBrandList() requires the first argument to be an array
+     */    
+    public function testNonArrayArgumentPaymentMeanBrandList()
+    {
+        $this->assertEquals(array(), $this->order->getPaymentMeanBrandList());
+        $this->order->setPaymentMeanBrandList('lorem');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The payment method "CONTANT" is not available. Available options are: IDEAL, MINITIX, VISA, MASTERCARD, MAESTRO, VPAY, BCMC, INCASSO, ACCEPTGIRO, REMBOURS 
+     */
+    public function testInvalidAddPayment()
+    {
+        $this->order->addPaymentMeanBrand('CONTANT');
+    }
+    
+    public function testAddPayment()
+    {
+        $this->assertCount(0, $this->order->getPaymentMeanBrandList());
+        $this->order->addPaymentMeanBrand('IDEAL');
+        $this->assertCount(1, $this->order->getPaymentMeanBrandList());
+        $this->assertEquals(array('IDEAL'), $this->order->getPaymentMeanBrandList());
+        
+        return $this->order;
+    }
+    
+    /**
+     * @depends testAddPayment
+     */
+    public function testSetPayment($order)
+    {
+        $this->assertCount(1, $order->getPaymentMeanBrandList());
+        $order->setPaymentMeanBrandList(array(
+            'VISA',
+            'MAESTRO',
+        ));
+        $this->assertCount(2, $order->getPaymentMeanBrandList());
+        $this->assertEquals(array('VISA', 'MAESTRO'), $order->getPaymentMeanBrandList());
+    }
 }

@@ -61,6 +61,16 @@ class OmniKassaOrder
      * @var $customerLanguage string
      */
     protected $customerLanguage;
+    
+    /**
+     * @var $paymentMeanBrandList array
+     */
+    protected $paymentMeanBrandList;
+    
+    public function __construct()
+    {
+        $this->paymentMeanBrandList = array();
+    }
         
     public function setMerchantId($id)
     {
@@ -288,5 +298,58 @@ class OmniKassaOrder
     public function getCustomerLanguage()
     {
         return $this->customerLanguage;
+    }
+    
+    /**
+     * Set the paymentMeanBrandList
+     * @param $list array An array of payment methods
+     * @return \InvalidArgumentException|OmniKassaOrder
+     */
+    public function setPaymentMeanBrandList($list)
+    {
+        if (!is_array($list)) {
+            throw new \InvalidArgumentException('setPaymentMeanBrandList() requires the first argument to be an array');
+        }
+        // Resetting the array
+        $this->paymentMeanBrandList = array();
+        
+        foreach($list as $paymentMethod) {
+            $this->addPaymentMeanBrand($paymentMethod);
+        }
+        return $this;
+    }
+
+    /**
+     * Add an element to the paymentMeanBrandList
+     * @param $list array An array of payment methods
+     * @return \InvalidArgumentException|OmniKassaOrder
+     */
+    public function addPaymentMeanBrand($paymentMethod)
+    {
+        $availableMethods = array(
+            'IDEAL',
+            'MINITIX',
+            'VISA',
+            'MASTERCARD',
+            'MAESTRO',
+            'VPAY',
+            'BCMC',
+            'INCASSO',
+            'ACCEPTGIRO',
+            'REMBOURS',
+        );
+        if (!in_array($paymentMethod, $availableMethods)) {
+            throw new \InvalidArgumentException(sprintf('The payment method "%s" is not available. Available options are: %s', $paymentMethod, implode(', ', $availableMethods)));
+        }
+        $this->paymentMeanBrandList[] = $paymentMethod;
+        return $this;
+    }
+    
+    /**
+     * Get the paymentMeanBrandList array
+     */
+    public function getPaymentMeanBrandList()
+    {
+        return $this->paymentMeanBrandList;
     }
 }
