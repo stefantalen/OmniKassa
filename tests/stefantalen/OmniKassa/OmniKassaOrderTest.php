@@ -83,6 +83,24 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @expectedException \LengthException
+     * @expectedExceptionMessage The transactionReference has a maximum of 32 characters
+     */
+    public function testLongTransactionReference()
+    {
+        $this->order->setTransactionReference('abcdefghijklmnopqrstuvwxyz1234567');
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The transactionReference can only contain alphanumeric characters
+     */
+    public function testInvalidTransactionReference()
+    {
+        $this->order->setTransactionReference('aBcDeFgIijklmnopqrstuvwxyz!');
+    }
+    
+    /**
+     * @expectedException \LengthException
      */
     public function testKeyVersion()
     {

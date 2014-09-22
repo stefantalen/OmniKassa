@@ -38,6 +38,11 @@ class OmniKassaOrder
     protected $automaticResponseUrl;
     
     /**
+     * @var $transactionReference string
+     */
+    protected $transactionReference;
+    
+    /**
      * @var $keyVersion string
      */
     protected $keyVersion;
@@ -144,6 +149,23 @@ class OmniKassaOrder
     public function getAutomaticResponseUrl()
     {
         return $this->automaticResponseUrl;
+    }
+    
+    /**
+     * The transaction reference
+     * @param $reference string The reference
+     * @return \LengthException|\InvalidArgumentException|OmniKassaOrder
+     */
+    public function setTransactionReference($reference)
+    {
+        if (strlen($reference) > 32) {
+            throw new \LengthException('The transactionReference has a maximum of 32 characters');
+        }
+        if (!preg_match('/^[a-z0-9]+$/i', $reference)) {
+            throw new \InvalidArgumentException('The transactionReference can only contain alphanumeric characters');
+        }
+        $this->transactionReference = $reference;
+        return $this;
     }
     
     /**
