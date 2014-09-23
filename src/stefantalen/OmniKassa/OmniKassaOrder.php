@@ -518,4 +518,19 @@ class OmniKassaOrder
             array_keys($data))
         );
     }
+    
+    /**
+     * Get the seal
+     *
+     * @return string the seal
+     *
+     * @throws \BadMethodCallException if no secret key is specified
+     */
+    public function getSeal()
+    {
+        if (null === $this->secretKey) {
+            throw new \BadMethodCallException('A secret key must be provided');
+        }
+        return hash('sha256', utf8_encode($this->getData(). $this->secretKey));
+    }
 }

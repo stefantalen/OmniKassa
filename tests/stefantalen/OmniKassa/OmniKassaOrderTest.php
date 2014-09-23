@@ -463,4 +463,34 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('amount=2599|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://www.company.com/return|automaticResponseUrl=http://www.company.com/response|transactionReference=ORD0000001A1|orderId=ORD0000001|keyVersion=1|customerLanguage=EN|paymentMeanBrandList=IDEAL,MINITIX', $order->getData());
         return $order;
     }
+    
+    /**
+     * @depends testValidOmniKassaOrderData
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage A secret key must be provided
+     */
+    public function testInvalidSeal(OmniKassaOrder $order)
+    {
+        $order->getSeal();
+    }
+    
+    public function testValidSeal()
+    {
+        $order = new OmniKassaOrder();
+        $order
+            ->setCurrency('EUR')
+            ->setAmount('0.55')
+            ->setMerchantId('002020000000001')
+            ->setNormalReturnUrl('http://www.normalreturnurl.nl')
+            ->setAutomaticResponseUrl('http://www.autoresponse.nl')
+            ->setTransactionReference('534654')
+            ->setOrderId('201208345')
+            ->setKeyVersion('1')
+        ;
+        $order->setSecretKey('002020000000001_KEY1');
+        $this->assertEquals(
+            '6fa2fcf410bd00ff0bccc52ee91a59f46d3983d328aea0426a8edffc6deeff09',
+            $order->getSeal()
+        );
+    }
 }
