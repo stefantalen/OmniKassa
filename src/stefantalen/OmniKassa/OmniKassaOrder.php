@@ -103,9 +103,17 @@ class OmniKassaOrder
         return $this;
     }
     
+    /**
+     * Set the secret key provided by OmniKassa
+     *
+     * @param $key string The secrey key
+     *
+     * @return OmniKassaOrder
+     */
     public function setSecretKey($key)
     {
         $this->secretKey = $key;
+        return $this;
     }
     
     /**
