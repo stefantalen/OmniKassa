@@ -462,4 +462,57 @@ class OmniKassaOrder
     {
         return $this->captureMode;
     }
+    
+    /**
+     * Get all the data
+     *
+     * @return string Formatted string containing all data according to the OmniKassa requirement
+     *
+     * @throws \BadMethodCallException if no currency is specified
+     * @throws \BadMethodCallException if no amount is specified
+     * @throws \BadMethodCallException if no merchantId is specified
+     * @throws \BadMethodCallException if no orderId is specified
+     * @throws \BadMethodCallException if no normalReturnUrl is specified
+     * @throws \BadMethodCallException if no automaticResponseUrl is specified
+     * @throws \BadMethodCallException if no transactionReference is specified
+     * @throws \BadMethodCallException if no keyVersion is specified
+     *
+     */
+    public function getData()
+    {
+        // Required fields
+        $data = array(
+            'currency' => $this->currency,
+            'amount' => $this->amount,
+            'merchantId' => $this->merchantId,
+            'orderId' => $this->orderId,
+            'normalReturnUrl' => $this->normalReturnUrl,
+            'automaticResponseUrl' => $this->automaticResponseUrl,
+            'transactionReference' => $this->transactionReference,
+            'keyVersion' => $this->keyVersion            
+        );
+        foreach ($data as $key => $value)
+        {
+            if (null == $value) {
+                throw new \BadMethodCallException(sprintf('No %s specified', $key));
+            }
+        }
+        $optionalData = array(
+            'customerLanguage' => $this->customerLanguage,
+            'expirationDate' => $this->expirationDate,
+            'captureDay' => $this->captureDay,
+            'captureMode' => $this->captureMode
+        );
+        if (sizeof($this->paymentMeanBrandList) > 0) {
+            $optionalData['paymentMeanBrandList'] = implode(',', $this->paymentMeanBrandList);
+        }
+        foreach ($optionalData as $key => $value)
+        {
+            if (null !== $value) {
+                $data[$key] = $value;
+            }
+        }
+        
+        return http_build_query($data,'','|', PHP_QUERY_RFC3986);
+    }
 }
