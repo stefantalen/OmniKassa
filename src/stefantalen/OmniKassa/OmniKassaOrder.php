@@ -512,7 +512,6 @@ class OmniKassaOrder
                 $data[$key] = $value;
             }
         }
-        
-        return http_build_query($data,'','|', PHP_QUERY_RFC3986);
+        return http_build_query($data,'','|');
     }
 }
