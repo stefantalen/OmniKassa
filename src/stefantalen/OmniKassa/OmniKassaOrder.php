@@ -86,13 +86,21 @@ class OmniKassaOrder
     {
         $this->paymentMeanBrandList = array();
     }
-        
+    
+    /**
+     * Set the merchant id provided by OmniKassa
+     *
+     * @return OmniKassaOrder
+     *
+     * @throws \LengthException if the length of the ID is not 15 characters
+     */
     public function setMerchantId($id)
     {
         if (strlen($id) !== 15) {
             throw new \LengthException('The Merchant ID should contain 15 characters');
         }
-        $this->merchantId = $merchantId;
+        $this->merchantId = $id;
+        return $this;
     }
     
     public function setSecretKey($key)

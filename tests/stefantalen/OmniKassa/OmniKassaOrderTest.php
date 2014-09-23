@@ -29,6 +29,11 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         );
     }
     
+    public function testValidMerchantId()
+    {
+        $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaOrder',$this->order->setMerchantId('002020000000001'));
+    }
+    
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The given currency does not comply with the ISO 4217 standard
