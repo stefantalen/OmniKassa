@@ -87,6 +87,11 @@ class OmniKassaOrder
      */
     protected $actionUrl = "https://payment-webinit.omnikassa.rabobank.nl/paymentServlet";
     
+    /**
+     * @var $testMode boolean
+     */
+    protected $testMode = false;
+    
     public function __construct()
     {
         $this->paymentMeanBrandList = array();
@@ -95,12 +100,18 @@ class OmniKassaOrder
     /**
      * Set the merchant id provided by OmniKassa
      *
+     * @param $id string The id
+     *
      * @return OmniKassaOrder
      *
+     * @throws \BadMethodCallException if test mode is enabled
      * @throws \LengthException if the length of the ID is not 15 characters
      */
     public function setMerchantId($id)
     {
+        if ($this->testMode) {
+            throw new \BadMethodCallException('The Merchant ID cannot be set in test mode');
+        }
         if (strlen($id) !== 15) {
             throw new \LengthException('The Merchant ID should contain 15 characters');
         }
@@ -114,9 +125,14 @@ class OmniKassaOrder
      * @param $key string The secrey key
      *
      * @return OmniKassaOrder
+     
+     * @throws \BadMethodCallException if test mode is enabled
      */
     public function setSecretKey($key)
     {
+        if ($this->testMode) {
+            throw new \BadMethodCallException('The secret key cannot be set in test mode');
+        }
         $this->secretKey = $key;
         return $this;
     }
@@ -231,10 +247,17 @@ class OmniKassaOrder
     /**
      * The version number of the secret key, can be found on the OmniKassa website
      * @param $version string The version number
-     * @return \LengthException|OmniKassaOrder
+     *
+     * @return OmniKassaOrder
+     *
+     * @throws \BadMethodCallException if test mode is enabled
+     * @throws \LengthException if the key is longer than 10 characters
      */
     public function setKeyVersion($version)
     {
+        if ($this->testMode) {
+            throw new \BadMethodCallException('The keyVersion cannot be set in test mode');
+        }
         if (strlen($version) > 10) {
             throw new \LengthException('The keyVersion has a maximum of 10 characters');
         }
@@ -547,5 +570,20 @@ class OmniKassaOrder
     public function getActionUrl()
     {
         return $this->actionUrl;
+    }
+    
+    /**
+     * Enable test mode
+     *
+     * @return OmniKassaOrder
+     */
+    public function enableTestMode()
+    {
+        $this->actionUrl = "https://payment-webinit.simu.omnikassa.rabobank.nl/paymentServlet";
+        $this->setMerchantId('002020000000001');
+        $this->setSecretKey('002020000000001_KEY1');
+        $this->setKeyVersion('1');
+        $this->testMode = true;
+        return $this;
     }
 }

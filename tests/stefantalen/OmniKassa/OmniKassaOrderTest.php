@@ -492,10 +492,53 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             '6fa2fcf410bd00ff0bccc52ee91a59f46d3983d328aea0426a8edffc6deeff09',
             $order->getSeal()
         );
+        
+        return $order;
     }
     
     public function testActionUrl()
     {
         $this->assertEquals('https://payment-webinit.omnikassa.rabobank.nl/paymentServlet', $this->order->getActionUrl());
+    }
+    
+    /**
+     * @depends testValidSeal
+     */
+    public function testEnableTestMode(OmniKassaOrder $order)
+    {
+        $this->assertEquals('https://payment-webinit.omnikassa.rabobank.nl/paymentServlet', $order->getActionUrl());
+        $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaOrder', $order->enableTestMode());
+        $this->assertEquals('https://payment-webinit.simu.omnikassa.rabobank.nl/paymentServlet', $order->getActionUrl());
+        return $order;
+    }
+    
+    /**
+     * @depends testEnableTestMode
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage The Merchant ID cannot be set in test mode
+     */
+    public function testMerchantIdTestMode(OmniKassaOrder $order)
+    {
+        $order->setMerchantId('123456789abcdef');
+    }
+    
+    /**
+     * @depends testEnableTestMode
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage The secret key cannot be set in test mode
+     */
+    public function testSecretKeyTestMode(OmniKassaOrder $order)
+    {
+        $order->setSecretKey('4');
+    }
+    
+    /**
+     * @depends testEnableTestMode
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage The keyVersion cannot be set in test mode
+     */
+    public function testKeyVersionTestMode(OmniKassaOrder $order)
+    {
+        $order->setKeyVersion('4');
     }
 }
