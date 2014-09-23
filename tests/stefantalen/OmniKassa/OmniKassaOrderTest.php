@@ -36,7 +36,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     
     public function testSecretKey()
     {
-        $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaOrder', $this->order->setSecretKey('1'));
+        $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaOrder', $this->order->setSecretKey('002020000000001_KEY1'));
     }
     
     /**
