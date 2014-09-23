@@ -82,6 +82,11 @@ class OmniKassaOrder
      */
     protected $captureMode;
     
+    /**
+     * @var $actionUrl string
+     */
+    protected $actionUrl = "https://payment-webinit.omnikassa.rabobank.nl/paymentServlet";
+    
     public function __construct()
     {
         $this->paymentMeanBrandList = array();
@@ -532,5 +537,15 @@ class OmniKassaOrder
             throw new \BadMethodCallException('A secret key must be provided');
         }
         return hash('sha256', utf8_encode($this->getData(). $this->secretKey));
+    }
+    
+    /**
+     * Get the action url
+     *
+     * @return string
+     */
+    public function getActionUrl()
+    {
+        return $this->actionUrl;
     }
 }

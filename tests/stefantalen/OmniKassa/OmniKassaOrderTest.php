@@ -493,4 +493,9 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             $order->getSeal()
         );
     }
+    
+    public function testActionUrl()
+    {
+        $this->assertEquals('https://payment-webinit.omnikassa.rabobank.nl/paymentServlet', $this->order->getActionUrl());
+    }
 }
