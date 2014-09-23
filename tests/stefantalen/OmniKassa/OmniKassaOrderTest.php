@@ -324,24 +324,12 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No currency specified
+     * @expectedExceptionMessage No amount specified
      */
     public function testInValidOmniKassaOrderDataCurrency()
     {
         $this->order
             ->getData();
-    }
-    
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No amount specified
-     */
-    public function testInValidOmniKassaOrderDataAmount()
-    {
-        $this->order
-            ->setCurrency('EUR')
-            ->getData()
-        ;
     }
     
     /**
@@ -359,20 +347,6 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No orderId specified
-     */
-    public function testInValidOmniKassaOrderDataOrderId()
-    {
-        $this->order
-            ->setCurrency('EUR')
-            ->setAmount('25.99')
-            ->setMerchantId('002020000000001')
-            ->getData()
-        ;
-    }
-    
-    /**
-     * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No normalReturnUrl specified
      */
     public function testInValidOmniKassaOrderDataNormalReturnUrl()
@@ -381,7 +355,6 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             ->setCurrency('EUR')
             ->setAmount('25.99')
             ->setMerchantId('002020000000001')
-            ->setOrderId('ORD0000001')
             ->getData()
         ;
     }
@@ -396,7 +369,6 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             ->setCurrency('EUR')
             ->setAmount('25.99')
             ->setMerchantId('002020000000001')
-            ->setOrderId('ORD0000001')
             ->setNormalReturnUrl('http://www.company.com/return')
             ->getData()
         ;
@@ -412,12 +384,29 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             ->setCurrency('EUR')
             ->setAmount('25.99')
             ->setMerchantId('002020000000001')
-            ->setOrderId('ORD0000001')
             ->setNormalReturnUrl('http://www.company.com/return')
             ->setAutomaticResponseUrl('http://www.company.com/response')
             ->getData()
         ;
     }
+    
+    /**
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage No orderId specified
+     */
+    public function testInValidOmniKassaOrderDataOrderId()
+    {
+        $this->order
+            ->setCurrency('EUR')
+            ->setAmount('25.99')
+            ->setMerchantId('002020000000001')
+            ->setNormalReturnUrl('http://www.company.com/return')
+            ->setAutomaticResponseUrl('http://www.company.com/response')
+            ->setTransactionReference('ORD0000001A1')
+            ->getData()
+        ;
+    }
+    
     /**
      * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No keyVersion specified
@@ -428,10 +417,10 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             ->setCurrency('EUR')
             ->setAmount('25.99')
             ->setMerchantId('002020000000001')
-            ->setOrderId('ORD0000001')
             ->setNormalReturnUrl('http://www.company.com/return')
             ->setAutomaticResponseUrl('http://www.company.com/response')
             ->setTransactionReference('ORD0000001A1')
+            ->setOrderId('ORD0000001')
             ->getData()
         ;
     }
@@ -442,13 +431,13 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             ->setCurrency('EUR')
             ->setAmount('25.99')
             ->setMerchantId('002020000000001')
-            ->setOrderId('ORD0000001')
             ->setNormalReturnUrl('http://www.company.com/return')
             ->setAutomaticResponseUrl('http://www.company.com/response')
             ->setTransactionReference('ORD0000001A1')
+            ->setOrderId('ORD0000001')
             ->setKeyVersion('1')
         ;
-        $this->assertEquals('currency=987|amount=2599|merchantId=002020000000001|orderId=ORD0000001|normalReturnUrl=http%3A%2F%2Fwww.company.com%2Freturn|automaticResponseUrl=http%3A%2F%2Fwww.company.com%2Fresponse|transactionReference=ORD0000001A1|keyVersion=1', $this->order->getData());
+        $this->assertEquals('amount=2599|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://www.company.com/return|automaticResponseUrl=http://www.company.com/response|transactionReference=ORD0000001A1|orderId=ORD0000001|keyVersion=1', $this->order->getData());
         return $this->order;
     }
     
@@ -458,7 +447,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     public function testValidOmniKassaOrderWithOptionalCustomerLanguageData(OmniKassaOrder $order)
     {
         $order->setCustomerLanguage('en');
-        $this->assertEquals('currency=987|amount=2599|merchantId=002020000000001|orderId=ORD0000001|normalReturnUrl=http%3A%2F%2Fwww.company.com%2Freturn|automaticResponseUrl=http%3A%2F%2Fwww.company.com%2Fresponse|transactionReference=ORD0000001A1|keyVersion=1|customerLanguage=EN', $order->getData());
+        $this->assertEquals('amount=2599|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://www.company.com/return|automaticResponseUrl=http://www.company.com/response|transactionReference=ORD0000001A1|orderId=ORD0000001|keyVersion=1|customerLanguage=EN', $order->getData());
         return $order;
     }
     
@@ -468,10 +457,10 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     public function testValidOmniKassaOrderWithOptionalPaymentData(OmniKassaOrder $order)
     {
         $order->addPaymentMeanBrand('IDEAL');
-        $this->assertEquals('currency=987|amount=2599|merchantId=002020000000001|orderId=ORD0000001|normalReturnUrl=http%3A%2F%2Fwww.company.com%2Freturn|automaticResponseUrl=http%3A%2F%2Fwww.company.com%2Fresponse|transactionReference=ORD0000001A1|keyVersion=1|customerLanguage=EN|paymentMeanBrandList=IDEAL', $order->getData());
+        $this->assertEquals('amount=2599|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://www.company.com/return|automaticResponseUrl=http://www.company.com/response|transactionReference=ORD0000001A1|orderId=ORD0000001|keyVersion=1|customerLanguage=EN|paymentMeanBrandList=IDEAL', $order->getData());
         
         $order->addPaymentMeanBrand('MINITIX');
-        $this->assertEquals('currency=987|amount=2599|merchantId=002020000000001|orderId=ORD0000001|normalReturnUrl=http%3A%2F%2Fwww.company.com%2Freturn|automaticResponseUrl=http%3A%2F%2Fwww.company.com%2Fresponse|transactionReference=ORD0000001A1|keyVersion=1|customerLanguage=EN|paymentMeanBrandList=IDEAL%2CMINITIX', $order->getData());
+        $this->assertEquals('amount=2599|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://www.company.com/return|automaticResponseUrl=http://www.company.com/response|transactionReference=ORD0000001A1|orderId=ORD0000001|keyVersion=1|customerLanguage=EN|paymentMeanBrandList=IDEAL,MINITIX', $order->getData());
         return $order;
     }
 }

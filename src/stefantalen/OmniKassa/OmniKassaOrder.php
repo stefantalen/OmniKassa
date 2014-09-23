@@ -482,13 +482,13 @@ class OmniKassaOrder
     {
         // Required fields
         $data = array(
-            'currency' => $this->currency,
             'amount' => $this->amount,
+            'currencyCode' => $this->currency,
             'merchantId' => $this->merchantId,
-            'orderId' => $this->orderId,
             'normalReturnUrl' => $this->normalReturnUrl,
             'automaticResponseUrl' => $this->automaticResponseUrl,
             'transactionReference' => $this->transactionReference,
+            'orderId' => $this->orderId,
             'keyVersion' => $this->keyVersion            
         );
         foreach ($data as $key => $value)
@@ -512,6 +512,10 @@ class OmniKassaOrder
                 $data[$key] = $value;
             }
         }
-        return http_build_query($data,'','|');
+        return implode('|', array_map(
+            function($v, $k) { return sprintf('%s=%s', $k, $v); },
+            $data,
+            array_keys($data))
+        );
     }
 }
