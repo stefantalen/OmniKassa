@@ -68,17 +68,17 @@ class OmniKassaOrder
     protected $paymentMeanBrandList;
     
     /**
-     * @var expirationDate string
+     * @var $expirationDate string
      */
     protected $expirationDate;
     
     /**
-     * @var captureDay int
+     * @var $captureDay int
      */
     protected $captureDay;
     
     /**
-     * @var captureMode string
+     * @var $captureMode string
      */
     protected $captureMode;
     
