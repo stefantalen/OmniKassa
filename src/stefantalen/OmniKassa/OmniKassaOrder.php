@@ -72,6 +72,11 @@ class OmniKassaOrder
      */
     protected $expirationDate;
     
+    /**
+     * @var captureDay int
+     */
+    protected $captureDay;
+    
     public function __construct()
     {
         $this->paymentMeanBrandList = array();
@@ -380,6 +385,32 @@ class OmniKassaOrder
     {
         return $this->expirationDate;
     }
-     
     
+    /**
+     * Set the number of days after authorization of a creditcard transaction in which a validation of the transaction will be executed.
+     *
+     * @param int $days The number of days
+     *
+     * @return OmniKassaOrder
+     *
+     * @throws \InvalidArgumentException if the number is below 1 or higher than 99
+     */
+    public function setCaptureDay($days)
+    {
+        if (!is_int($days) || $days <= 0 || $days > 99) {
+           throw new \InvalidArgumentException('The capture day should be an integer value between 1 and 100');
+        }
+        $this->captureDay = $days;
+        return $this;
+    }
+    
+    /**
+     * Set the number of days after authorization of a creditcard transaction in which a validation of the transaction will be executed.
+     *
+     * @return int
+     */
+    public function getCaptureDay()
+    {
+        return $this->captureDay;
+    }
 }

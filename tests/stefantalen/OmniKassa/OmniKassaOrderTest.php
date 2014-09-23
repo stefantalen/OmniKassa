@@ -277,4 +277,31 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals('2100-01-01T13:37:00+0300', $this->order->getExpirationDate());
     }
+    
+    /**
+     * @dataProvider invalidCaptureDays
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The capture day should be an integer value between 1 and 100
+     */
+    public function testInvalidCaptureDay($days)
+    {
+        $this->order->setCaptureDay($days);
+    }
+    
+    public function invalidCaptureDays()
+    {
+        return array(
+            array(0),
+            array(100),
+            array('test'),
+            array('10'),
+            array(10.5),
+        );
+    }
+    
+    public function testValidCaptureDay()
+    {
+        $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaOrder', $this->order->setCaptureDay(7));
+        $this->assertEquals(7, $this->order->getCaptureDay());
+    }
 }
