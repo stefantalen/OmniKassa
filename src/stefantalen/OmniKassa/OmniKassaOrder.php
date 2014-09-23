@@ -155,12 +155,11 @@ class OmniKassaOrder
      */
     protected function validateUrl($url, $property)
     {
-        // Encode string according to RFC 3986
-        $encodedUrl = rawurlencode($url);
-        if (strlen($encodedUrl) > 512) {
+        // Check string size according to RFC 3986
+        if (strlen(rawurlencode($url)) > 512) {
             throw new \LengthException(sprintf('The %s cannot be longer than 512 characters', $property));
         }
-        return $encodedUrl;
+        return $url;
     }
     
     /**
