@@ -272,8 +272,13 @@ class OmniKassaOrder
     
     /**
      * Set the order ID to give the transaction a reference
+     *
      * @param $orderId string The order ID
-     * @return \LengthException|\InvalidArgumentException|OmniKassaOrder
+     *
+     * @return OmniKassaOrder
+     *
+     * @throws \LengthException when the orderId has more than 32 characters
+     * @throws \InvalidArgumentException when the orderId has invalid characters
      */
     public function setOrderId($orderId)
     {
@@ -283,6 +288,8 @@ class OmniKassaOrder
         if (!preg_match('/^[a-z0-9]+$/i', $orderId)) {
             throw new \InvalidArgumentException('The orderId can only contain alphanumeric characters');
         }
+        $this->orderId = $orderId;
+        return $this;
     }
     
     /**
