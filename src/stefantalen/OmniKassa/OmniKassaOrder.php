@@ -77,6 +77,11 @@ class OmniKassaOrder
      */
     protected $captureDay;
     
+    /**
+     * @var captureMode string
+     */
+    protected $captureMode;
+    
     public function __construct()
     {
         $this->paymentMeanBrandList = array();
@@ -412,5 +417,27 @@ class OmniKassaOrder
     public function getCaptureDay()
     {
         return $this->captureDay;
+    }
+    
+    /**
+     * Set the capture mode
+     *
+     * @todo Implementation of this function
+     *
+     * @throws \Exception Because this function is not yet implemented the user gets this exception
+     */
+    public function setCaptureMode($mode)
+    {
+        throw new \Exception('This function is not yet implemented');
+    }
+    
+    /**
+     * Get the capture mode
+     *
+     * @return string
+     */
+    public function getCaptureMode()
+    {
+        return $this->captureMode;
     }
 }
