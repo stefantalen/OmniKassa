@@ -256,7 +256,7 @@ class OmniKassaOrder
         // Add decimals to value the currency is not Japanese Yen
         if ($this->currency !== '392') {
             if (isset($matches[2])) {
-                $amount = $matches[1] . substr($matches[2], 1);
+                $amount = '' . intval($matches[1] . substr($matches[2], 1));
             } else {
                 $amount = $matches[1] . '00';
             }

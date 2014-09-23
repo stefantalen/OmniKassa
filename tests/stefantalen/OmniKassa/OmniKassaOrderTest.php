@@ -159,12 +159,14 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
             ->setCurrency($currency)
             ->setAmount($amount)
         ;
-        $this->assertEquals($result, $this->order->getAmount());
+        $this->assertSame($result, $this->order->getAmount());
     }
     
     public function validAmounts()
     {
         return array(
+            array('EUR', '1', '100'),
+            array('EUR', '0.99', '99'),
             array('EUR', '24.99', '2499'),
             array('EUR', '2499', '249900'),
             array('JPY', '2499', '2499'),
