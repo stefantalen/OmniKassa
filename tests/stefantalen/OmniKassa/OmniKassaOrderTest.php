@@ -60,7 +60,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     public function testValidCurrency()
     {
         $this->order->setCurrency('EUR');
-        $this->assertEquals('987', $this->order->getCurrency());
+        $this->assertEquals('978', $this->order->getCurrency());
     }
     
     public function testInterfaceVersion()

@@ -126,7 +126,7 @@ class OmniKassaOrder
             throw new \InvalidArgumentException('The given currency does not comply with the ISO 4217 standard');
         }
         $currencyCodes = array(
-            'EUR' => '987',
+            'EUR' => '978',
             'USD' => '840',
             'CHF' => '756',
             'GBP' => '824',
