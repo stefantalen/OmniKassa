@@ -2,6 +2,7 @@ OmniKassa
 =========
 
 PHP library to interact with Rabobank OmniKassa
+
 [![Build Status](https://secure.travis-ci.org/stefantalen/OmniKassa.svg)](http://travis-ci.org/stefantalen/OmniKassa)
 
 ## Installation
@@ -18,5 +19,11 @@ $ composer require 'stefantalen/omnikassa: dev-master'
 ## Examples
 
 Examples can be found in the [`example`][0] folder
+
+## Contribute
+
+You are more than welcome to suggest enhancements or new features.
+
+If want to submit code, please submit your pull request to the develop branch.
 
 [0]: example
