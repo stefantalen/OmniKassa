@@ -66,7 +66,22 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
             'InterfaceVersion' => 'HP_1.0',
             'Encode' => ''
         );
+        $response = new OmniKassaResponse($postResponse);
+        $response
+            ->setSecretKey('002020000000001_KEY1')
+            ->validate();
         
+        $this->assertEquals('EUR', $response->getCurrency());
+        return $response;
     }
     
+    /**
+     * @depends testValidIdealPayment
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The requested currency code "123" is not available
+     */
+    public function testInvalidCurrency(OmniKassaResponse $response)
+    {
+        $response->setCurrencyCode('123');
+    }
 }

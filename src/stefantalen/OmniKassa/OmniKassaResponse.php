@@ -40,18 +40,31 @@ class OmniKassaResponse extends OmniKassaOrder
     /**
      * Validate the response
      *
-     * @return boolean
-     *
      * @throws \UnexpectedValueException if the response is not valid
      *
      */
     public function validate()
     {
         if ($this->seal === $this->getSeal()) {
-            
+            $this->handleData($this->data);
         } else {
             throw new \UnexpectedValueException('This response is not valid');
         }
+    }
+    
+    /**
+     * Set the currency based in the code
+     *
+     * @return OmniKassaResponse
+     *
+     */
+    public function setCurrencyCode($code)
+    {
+        if (!in_array($code, $this->currencyCodes)) {
+            throw new \InvalidArgumentException(sprintf('The requested currency code "%s" is not available', $code));
+        }
+        $this->currency = $code;
+        return $this;
     }
     
     /**
@@ -59,9 +72,20 @@ class OmniKassaResponse extends OmniKassaOrder
      *
      * @param $dataString string The Data string provided by OmniKassa
      */
-    public function handleData($dataString)
+    protected function handleData($dataString)
     {
-           
+        $dataArray = explode('|', $dataString);
+        $data = array();
+        foreach ($dataArray as $d) {
+            list($k, $v) = explode('=', $d);
+            $data[$k] = $v;
+        }
+        if (isset($data['currencyCode'])) {
+            $this->setCurrencyCode($data['currencyCode']);
+        }
+        if (isset($data['amount'])) {
+            $this->setAmount($data['amount']);
+        }
     }
     
     /**
@@ -78,5 +102,4 @@ class OmniKassaResponse extends OmniKassaOrder
         }
         return hash('sha256', utf8_encode($this->data. $this->secretKey));
     }
-    
 }
