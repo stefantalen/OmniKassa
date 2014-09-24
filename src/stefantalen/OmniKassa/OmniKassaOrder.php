@@ -198,7 +198,7 @@ class OmniKassaOrder
         }
         // Check the maximum value
         if ($amount > 999999999999) {
-            throw new \InvalidArgumentException('The amount cannot be over 9.999.999.999,99' );
+            throw new \InvalidArgumentException('The amount cannot be over 9.999.999.999,99');
         }
         $this->amount = $amount;
         return $this;
@@ -235,7 +235,8 @@ class OmniKassaOrder
     }
     
     /**
-     * Set the number of days after authorization of a creditcard transaction in which a validation of the transaction will be executed.
+     * Set the number of days after authorization of a creditcard transaction in which a validation of
+     * the transaction will be executed.
      *
      * @param int $days The number of days
      *
@@ -246,14 +247,15 @@ class OmniKassaOrder
     public function setCaptureDay($days)
     {
         if (!is_int($days) || $days <= 0 || $days > 99) {
-           throw new \InvalidArgumentException('The capture day should be an integer value between 1 and 100');
+            throw new \InvalidArgumentException('The capture day should be an integer value between 1 and 100');
         }
         $this->captureDay = $days;
         return $this;
     }
     
     /**
-     * Set the number of days after authorization of a creditcard transaction in which a validation of the transaction will be executed.
+     * Set the number of days after authorization of a creditcard transaction in which a validation of
+     * the transaction will be executed.
      *
      * @return int
      */

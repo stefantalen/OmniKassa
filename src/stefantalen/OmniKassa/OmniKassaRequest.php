@@ -122,7 +122,9 @@ class OmniKassaRequest extends OmniKassaOrder
     {
         // Only checking lower case characters since that is according to the standard
         if (!preg_match('/^[a-z]{2}$/', $language)) {
-            throw new \InvalidArgumentException('The given language code does not comply with the ISO 639-1 Alpha2 standard');
+            throw new \InvalidArgumentException(
+                'The given language code does not comply with the ISO 639-1 Alpha2 standard'
+            );
         }
         $languages = array(
             'cs', // Czech
@@ -169,7 +171,7 @@ class OmniKassaRequest extends OmniKassaOrder
         // Resetting the array
         $this->paymentMeanBrandList = array();
         
-        foreach($list as $paymentMethod) {
+        foreach ($list as $paymentMethod) {
             $this->addPaymentMeanBrand($paymentMethod);
         }
         return $this;
@@ -199,7 +201,11 @@ class OmniKassaRequest extends OmniKassaOrder
             'REMBOURS',
         );
         if (!in_array($paymentMethod, $availableMethods)) {
-            throw new \InvalidArgumentException(sprintf('The payment method "%s" is not available. Available options are: %s', $paymentMethod, implode(', ', $availableMethods)));
+            throw new \InvalidArgumentException(sprintf(
+                'The payment method "%s" is not available. Available options are: %s',
+                $paymentMethod,
+                implode(', ', $availableMethods)
+            ));
         }
         $this->paymentMeanBrandList[] = $paymentMethod;
         return $this;
@@ -269,10 +275,9 @@ class OmniKassaRequest extends OmniKassaOrder
             'automaticResponseUrl' => $this->automaticResponseUrl,
             'transactionReference' => $this->transactionReference,
             'orderId' => $this->orderId,
-            'keyVersion' => $this->keyVersion            
+            'keyVersion' => $this->keyVersion
         );
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             if (null == $value) {
                 throw new \BadMethodCallException(sprintf('No %s specified', $key));
             }
@@ -286,16 +291,20 @@ class OmniKassaRequest extends OmniKassaOrder
         if (sizeof($this->paymentMeanBrandList) > 0) {
             $optionalData['paymentMeanBrandList'] = implode(',', $this->paymentMeanBrandList);
         }
-        foreach ($optionalData as $key => $value)
-        {
+        foreach ($optionalData as $key => $value) {
             if (null !== $value) {
                 $data[$key] = $value;
             }
         }
-        return implode('|', array_map(
-            function($v, $k) { return sprintf('%s=%s', $k, $v); },
-            $data,
-            array_keys($data))
+        return implode(
+            '|',
+            array_map(
+                function ($v, $k) {
+                    return sprintf('%s=%s', $k, $v);
+                },
+                $data,
+                array_keys($data)
+            )
         );
     }
     
