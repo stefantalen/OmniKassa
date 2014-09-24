@@ -6,6 +6,21 @@ use stefantalen\OmniKassa\OmniKassaRequest;
 
 class OmniKassaOrder
 {
+    /**
+     * @var $currencyCodes
+     */
+    protected $currencyCodes = array(
+        'EUR' => '978',
+        'USD' => '840',
+        'CHF' => '756',
+        'GBP' => '824',
+        'CAD' => '124',
+        'JPY' => '392',
+        'AUD' => '036',
+        'NOK' => '578',
+        'SEK' => '752',
+        'DKK' => '208',
+    );
 
     /**
      * @var $merchantId string
@@ -106,29 +121,17 @@ class OmniKassaOrder
         if (!preg_match('/^[A-Z]{3}$/', $currencyCode)) {
             throw new \InvalidArgumentException('The given currency does not comply with the ISO 4217 standard');
         }
-        $currencyCodes = array(
-            'EUR' => '978',
-            'USD' => '840',
-            'CHF' => '756',
-            'GBP' => '824',
-            'CAD' => '124',
-            'JPY' => '392',
-            'AUD' => '036',
-            'NOK' => '578',
-            'SEK' => '752',
-            'DKK' => '208',
-        );
-        if (!array_key_exists($currencyCode, $currencyCodes)) {
+        if (!array_key_exists($currencyCode, $this->currencyCodes)) {
             throw new \InvalidArgumentException(sprintf('The requested currency "%s" is not available', $currencyCode));
         }
-        $this->currency = $currencyCodes[$currencyCode];
+        $this->currency = $this->currencyCodes[$currencyCode];
         
         return $this;
     }
     
     public function getCurrency()
     {
-        return $this->currency;
+        return array_search($this->currency, $this->currencyCodes);
     }
     
     /**
