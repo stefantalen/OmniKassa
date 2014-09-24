@@ -19,5 +19,10 @@
     },
     "autoload": {
         "psr-0": { "stefantalen\\OmniKassa\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.x-dev"
+        }
     }
 }
