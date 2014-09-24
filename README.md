@@ -13,7 +13,7 @@ The simple following command will install `omnikassa` into your project. It also
 entry in your `composer.json` and updates the `composer.lock` as well.
 
 ```bash
-$ composer require 'stefantalen/omnikassa: dev-master'
+$ composer require 'stefantalen/omnikassa: 1.0.*'
 ```
 
 ## Examples
