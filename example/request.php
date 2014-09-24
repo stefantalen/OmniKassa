@@ -1,7 +1,7 @@
 <?php
 require_once('../vendor/autoload.php');
 
-use stefantalen\OmniKassa\OmniKassaOrder;
+use stefantalen\OmniKassa\OmniKassaRequest;
 
 function getPath()
 {
@@ -11,8 +11,8 @@ function getPath()
 }
 
 
-$order = new OmniKassaOrder();
-$order
+$request = new OmniKassaRequest();
+$request
     ->setCurrency('EUR')
     ->setAmount('0.55')
     ->setMerchantId('000000000000000')
@@ -26,9 +26,9 @@ $order
 ;
 
 ?>
-<form method="post" action="<?= $order->getActionUrl() ?>">
-    <input type="hidden" name="Data" value="<?= $order->getData() ?>">
-    <input type="hidden" name="InterfaceVersion" value="<?= $order->getInterfaceVersion() ?>">
-    <input type="hidden" name="Seal" value="<?= $order->getSeal() ?>">
+<form method="post" action="<?= $request->getActionUrl() ?>">
+    <input type="hidden" name="Data" value="<?= $request->getData() ?>">
+    <input type="hidden" name="InterfaceVersion" value="<?= $request->getInterfaceVersion() ?>">
+    <input type="hidden" name="Seal" value="<?= $request->getSeal() ?>">
     <input type="submit" value="Naar betaling" />
 </form>
