@@ -58,9 +58,13 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Encodes the given URL according to RFC 3986 and checks the length
+     *
      * @param $url string The URL
      * @param $property string The property that is being checked
-     * @return \LengthException|string
+     *
+     * @return string
+     *
+     * @throws \LengthException if the encode url is too long
      */
     protected function validateUrl($url, $property)
     {
@@ -73,7 +77,8 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * @param $url string The URL where the user returns after the payment
-     * @return LengthException|OmniKassaOrder
+     *
+     * @return OmniKassaRequest
      */
     public function setNormalReturnUrl($url)
     {
@@ -91,7 +96,8 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * @param $url string The URL where the cronjob returns after the payment
-     * @return LengthException|OmniKassaOrder
+     *
+     * @return OmniKassaRequest
      */
     public function setAutomaticResponseUrl($url)
     {
@@ -110,7 +116,7 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * @param $language string The language in which the payment portal should be shown
-     * @return OmniKassaOrder
+     * @return OmniKassaRequest
      */
     public function setCustomerLanguage($language)
     {
@@ -148,8 +154,12 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Set the paymentMeanBrandList
+     *
      * @param $list array An array of payment methods
-     * @return \InvalidArgumentException|OmniKassaOrder
+     *
+     * @return OmniKassaRequest
+     *
+     * @throws \InvalidArgumentException if the parameter is not an array
      */
     public function setPaymentMeanBrandList($list)
     {
@@ -167,8 +177,12 @@ class OmniKassaRequest extends OmniKassaOrder
 
     /**
      * Add an element to the paymentMeanBrandList
+     *
      * @param $list array An array of payment methods
-     * @return \InvalidArgumentException|OmniKassaOrder
+     *
+     * @return OmniKassaRequest
+     *
+     * @throws \InvalidArgumentException if the payment method is not available
      */
     public function addPaymentMeanBrand($paymentMethod)
     {
@@ -193,6 +207,8 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Get the paymentMeanBrandList array
+     *
+     * @return array
      */
     public function getPaymentMeanBrandList()
     {
@@ -201,8 +217,12 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Set the expiration date in ISO 8601 format
+     *
      * @param $expirationDate \DateTime The date the payment expires
-     * @return \InvalidArgumentException|OmniKassaOrder
+     *
+     * @return OmniKassaRequest
+     *
+     * @throws \InvalidArgumentException is the date is not in the future
      */
     public function setExpirationDate(\DateTime $expirationDate)
     {
@@ -215,6 +235,7 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Get the expiration date
+     *
      * @return string
      */
     public function getExpirationDate()
