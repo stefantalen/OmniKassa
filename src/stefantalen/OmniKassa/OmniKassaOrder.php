@@ -250,6 +250,16 @@ class OmniKassaOrder
     }
     
     /**
+     * Get the order id
+     *
+     * @return string
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+    
+    /**
      * Set the number of days after authorization of a creditcard transaction in which a validation of
      * the transaction will be executed.
      *

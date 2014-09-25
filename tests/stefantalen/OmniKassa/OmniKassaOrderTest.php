@@ -175,6 +175,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     public function testValidOrderId()
     {
         $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaOrder', $this->order->setOrderId('abcdefghijklmnopqrstuvwxyz123456'));
+        $this->assertSame('abcdefghijklmnopqrstuvwxyz123456', $this->order->getOrderId());
     }
     
     /**
