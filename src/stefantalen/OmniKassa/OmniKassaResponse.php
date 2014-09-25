@@ -80,8 +80,14 @@ class OmniKassaResponse extends OmniKassaOrder
             list($k, $v) = explode('=', $d);
             $data[$k] = $v;
         }
-        $this->setCurrencyCode($data['currencyCode']);
-        $this->setAmount($data['amount']);
+        $this
+            ->setCurrencyCode($data['currencyCode'])
+            ->setAmount($data['amount'])
+            ->setMerchantId($data['merchantId'])
+            ->setTransactionReference($data['transactionReference'])
+            ->setKeyVersion($data['keyVersion'])
+            ->setOrderId($data['orderId'])
+        ;
     }
     
     /**

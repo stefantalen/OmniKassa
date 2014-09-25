@@ -71,8 +71,10 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
             ->setSecretKey('002020000000001_KEY1')
             ->validate();
         
-        $this->assertEquals('EUR', $response->getCurrency());
-        $this->assertEquals('0.55', $response->getAmount());
+        $this->assertSame('EUR', $response->getCurrency());
+        $this->assertSame('0.55', $response->getAmount());
+        $this->assertSame('201409240242071', $response->getTransactionReference());
+        $this->assertSame('20140924024207', $response->getOrderId());
         return $response;
     }
     
