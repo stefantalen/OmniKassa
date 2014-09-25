@@ -4,6 +4,9 @@ OmniKassa
 PHP library to interact with Rabobank OmniKassa
 
 [![Build Status](https://secure.travis-ci.org/stefantalen/OmniKassa.svg)](http://travis-ci.org/stefantalen/OmniKassa)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stefantalen/OmniKassa/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stefantalen/OmniKassa/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/stefantalen/OmniKassa/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/stefantalen/OmniKassa/?branch=master)
+
 
 ## Installation
 
