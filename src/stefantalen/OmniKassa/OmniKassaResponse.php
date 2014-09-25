@@ -80,12 +80,8 @@ class OmniKassaResponse extends OmniKassaOrder
             list($k, $v) = explode('=', $d);
             $data[$k] = $v;
         }
-        if (isset($data['currencyCode'])) {
-            $this->setCurrencyCode($data['currencyCode']);
-        }
-        if (isset($data['amount'])) {
-            $this->setAmount($data['amount']);
-        }
+        $this->setCurrencyCode($data['currencyCode']);
+        $this->setAmount($data['amount']);
     }
     
     /**
@@ -101,5 +97,33 @@ class OmniKassaResponse extends OmniKassaOrder
             throw new \BadMethodCallException('A secret key must be provided');
         }
         return hash('sha256', utf8_encode($this->data. $this->secretKey));
+    }
+    
+     /**
+     * Set the amount of the order
+     * @param $amount string
+     * @return \LogicException|\InvalidArgumentException|OmniKassaResponse
+     */
+    public function setAmount($amount)
+    {
+        // A currency must be set
+        if (null === $this->currency) {
+            throw new \LogicException('Please set a currency first');
+        }
+        // Check if the amount is a valid value
+        if (!preg_match('/^[0-9]*$/', $amount)) {
+            throw new \InvalidArgumentException('The amount can only contain numerics');
+        }
+        
+        // Add decimals to value the currency is not Japanese Yen
+        if ($this->currency !== '392') {
+            if ($amount >= 100) {
+                $amount = preg_replace('/^([0-9]*)([0-9]{2})$/', '$1.$2', $amount);
+            } else {
+                $amount = '0.'. $amount;
+            }
+        }
+        $this->amount = $amount;
+        return $this;
     }
 }

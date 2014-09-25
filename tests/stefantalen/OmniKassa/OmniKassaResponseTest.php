@@ -72,6 +72,7 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
             ->validate();
         
         $this->assertEquals('EUR', $response->getCurrency());
+        $this->assertEquals('0.55', $response->getAmount());
         return $response;
     }
     
@@ -83,5 +84,38 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
     public function testInvalidCurrency(OmniKassaResponse $response)
     {
         $response->setCurrencyCode('123');
+    }
+
+    /**
+     * @depends testValidIdealPayment
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The amount can only contain numerics
+     */
+    public function testStringAmount(OmniKassaResponse $response)
+    {
+        $response->setAmount('abcde');
+    }
+    
+    /**
+     * @depends testValidIdealPayment
+     * @dataProvider validAmounts
+     */
+    public function testValidAmount($currency, $input, $output, OmniKassaResponse $response)
+    {
+        $response->setCurrencyCode($currency);
+        $response->setAmount($input);
+        $this->assertSame($output, $response->getAmount());
+    }
+    
+    public function validAmounts()
+    {
+        return array(
+            array('978', '100', '1.00'),
+            array('978', '99', '0.99'),
+            array('978', '2499', '24.99'),
+            array('978', '249900', '2499.00'),
+            array('392', '2499', '2499'),
+            array('392', '249900', '249900'),
+        );
     }
 }
