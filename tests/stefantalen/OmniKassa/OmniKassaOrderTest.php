@@ -138,10 +138,10 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
     public function validAmounts()
     {
         return array(
-            array('EUR', '1', '100'),
+            array('EUR', '1.00', '100'),
             array('EUR', '0.99', '99'),
             array('EUR', '24.99', '2499'),
-            array('EUR', '2499', '249900'),
+            array('EUR', '2499.00', '249900'),
             array('JPY', '2499', '2499'),
             array('JPY', '249900', '249900'),
         );
