@@ -14,7 +14,8 @@ function getPath()
 $request = new OmniKassaRequest();
 $request
     ->setCurrency('EUR')
-    ->setAmount('0.55')
+    ->setAmount('50.00')
+    ->addPaymentMeanBrand('IDEAL')
     ->setMerchantId('000000000000000')
     ->setNormalReturnUrl(getPath() .'/return.php')
     ->setAutomaticResponseUrl(getPath() .'/response.php')
