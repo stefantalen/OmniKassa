@@ -56,9 +56,9 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
     public function testValidIdealPayment()
     {
         $postRequest = array(
-            'Data' => "amount=55|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://localhost/omnikassa/example/return.php|automaticResponseUrl=http://localhost/omnikassa/example/response.php|transactionReference=201409240242071|orderId=20140924024207|keyVersion=1|paymentMeanBrandList=IDEAL",
-            "InterfaceVersion" => "",
-            "Seal" => "bfd0067510d0e53a579bb0b32611c4cfefd90d918aab2bd0e91c04f53107a17a",
+            'Data' => 'amount=55|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://localhost/omnikassa/example/return.php|automaticResponseUrl=http://localhost/omnikassa/example/response.php|transactionReference=201409240242071|orderId=20140924024207|keyVersion=1|paymentMeanBrandList=IDEAL',
+            'InterfaceVersion' => 'HP_1.0',
+            'Seal' => 'bfd0067510d0e53a579bb0b32611c4cfefd90d918aab2bd0e91c04f53107a17a',
         );
         
         $postResponse = array(
@@ -161,5 +161,31 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
             array('2014-09-24T14:43:31+02:00'),
             array('2015-12-31T14:43:31+10:00'),
         );
+    }
+    
+    public function testCancelledIdealPayment()
+    {
+        $postRequest = array(
+            'Data' => 'amount=200|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://localhost/omnikassa/example/return.php|automaticResponseUrl=http://localhost/omnikassa/example/response.php|transactionReference=201409250153521|orderId=20140925015352|keyVersion=1|paymentMeanBrandList=IDEAL',
+            'InterfaceVersion' => 'HP_1.0',
+            'Seal' => 'a5ab1535ce23234fbfa720e210590ad7d7ae611dba6955a62d69ba004482a37d',
+        );
+        
+        $postResponse = array(
+            'Data' => 'amount=200|captureDay=0|captureMode=AUTHOR_CAPTURE|currencyCode=978|merchantId=002020000000001|orderId=20140925015352|transactionDateTime=2014-09-25T13:54:14+02:00|transactionReference=201409250153521|keyVersion=1|authorisationId=0020000006791167|paymentMeanBrand=IDEAL|paymentMeanType=CREDIT_TRANSFER|responseCode=17',
+            'Seal' => '6d05142a2a153ac147bdaeb20427eb985495c42eb3839a1d431cc0c97154c8df',
+            'InterfaceVersion' => 'HP_1.0',
+            'Encode' => ''
+        );
+        $response = new OmniKassaResponse($postResponse);
+        $response
+            ->setSecretKey('002020000000001_KEY1')
+            ->validate();
+        
+        $this->assertSame('EUR', $response->getCurrency());
+        $this->assertSame('2.00', $response->getAmount());
+        $this->assertSame('201409250153521', $response->getTransactionReference());
+        $this->assertSame('20140925015352', $response->getOrderId());
+        $this->assertSame(OmniKassaEvents::CANCELLED, $response->getResponseCode());
     }
 }
