@@ -95,7 +95,7 @@ class OmniKassaOrder
     /**
      * Set the secret key provided by OmniKassa
      *
-     * @param $key string The secrey key
+     * @param $key string The secret key
      *
      * @return OmniKassaOrder
      
