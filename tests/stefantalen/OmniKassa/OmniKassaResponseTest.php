@@ -122,4 +122,44 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
             array('392', '249900', '249900'),
         );
     }
+
+    /**
+     * @depends testValidIdealPayment
+     * @dataProvider invalidTransactionDateTimes
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The transactionDateTime should be in ISO 8601 format
+     */
+    public function testInvalidTransactionDateTime($input, OmniKassaResponse $response)
+    {
+        $response->setTransactionDateTime($input);
+    }
+    
+    public function invalidTransactionDateTimes()
+    {
+        return array(
+            array('201-09-24T14:43:31+02:00'),
+            array('2014-09-24 14:43:31+02:00'),
+            array('2014-09-24 14:43:31'),
+            array('24-09-2014 14:43:31'),
+            array('2014-09-24 14:43:31'),
+        );
+    }
+
+    /**
+     * @depends testValidIdealPayment
+     * @dataProvider validTransactionDateTimes
+     */
+    public function testValidTransactionDateTime($input, OmniKassaResponse $response)
+    {
+        $this->assertInstanceOf('stefantalen\OmniKassa\OmniKassaResponse', $response->setTransactionDateTime($input));
+        $this->assertInstanceOf('\DateTime', $response->getTransactionDateTime());
+    }
+    
+    public function validTransactionDateTimes()
+    {
+        return array(
+            array('2014-09-24T14:43:31+02:00'),
+            array('2015-12-31T14:43:31+10:00'),
+        );
+    }
 }

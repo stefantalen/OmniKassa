@@ -21,6 +21,11 @@ class OmniKassaResponse extends OmniKassaOrder
     protected $responseCode;
     
     /**
+     * @var $transactionDateTime \DateTime
+     */
+    protected $transactionDateTime;
+    
+    /**
      * Handle the POST array
      *
      * @param $postArray The POST array
@@ -93,6 +98,7 @@ class OmniKassaResponse extends OmniKassaOrder
             ->setKeyVersion($data['keyVersion'])
             ->setOrderId($data['orderId'])
             ->setResponseCode($data['responseCode'])
+            ->setTransactionDateTime($data['transactionDateTime'])
         ;
     }
     
@@ -161,5 +167,33 @@ class OmniKassaResponse extends OmniKassaOrder
     public function getResponseCode()
     {
         return $this->responseCode;
+    }
+    
+    /**
+     * Set the transaction date and time
+     *
+     * @param $datetime string The transaction date time string in ISO 8601 format
+     *
+     * @return OmniKassaResponse
+     *
+     * @throws \InvalidArgumentException if the provided string does not match the ISO 8601 format
+     */
+    public function setTransactionDateTime($datetime)
+    {
+        if (!preg_match('/(\d{4})-(\d{2})-(\d{2})T(\d{2})\:(\d{2})\:(\d{2})[+-](\d{2})\:(\d{2})/', $datetime)) {
+            throw new \InvalidArgumentException('The transactionDateTime should be in ISO 8601 format');
+        }
+        $this->transactionDateTime = \DateTime::createFromFormat(\DateTime::ISO8601, $datetime);
+        return $this;
+    }
+    
+    /**
+     * Get the transaction date and time
+     *
+     * @return \DateTime
+     */
+    public function getTransactionDateTime()
+    {
+        return $this->transactionDateTime;
     }
 }
