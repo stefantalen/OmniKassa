@@ -3,6 +3,7 @@
 namespace stefantalen\OmniKassa\Tests;
 
 use stefantalen\OmniKassa\OmniKassaResponse;
+use stefantalen\OmniKassa\OmniKassaEvents;
 
 class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,6 +76,7 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('0.55', $response->getAmount());
         $this->assertSame('201409240242071', $response->getTransactionReference());
         $this->assertSame('20140924024207', $response->getOrderId());
+        $this->assertSame(OmniKassaEvents::SUCCESS, $response->getResponseCode());
         return $response;
     }
     

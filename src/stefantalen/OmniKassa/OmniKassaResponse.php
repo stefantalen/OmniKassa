@@ -16,6 +16,11 @@ class OmniKassaResponse extends OmniKassaOrder
     protected $seal;
     
     /**
+     * @var $responseCode string
+     */
+    protected $responseCode;
+    
+    /**
      * Handle the POST array
      *
      * @param $postArray The POST array
@@ -87,6 +92,7 @@ class OmniKassaResponse extends OmniKassaOrder
             ->setTransactionReference($data['transactionReference'])
             ->setKeyVersion($data['keyVersion'])
             ->setOrderId($data['orderId'])
+            ->setResponseCode($data['responseCode'])
         ;
     }
     
@@ -131,5 +137,29 @@ class OmniKassaResponse extends OmniKassaOrder
         }
         $this->amount = $amount;
         return $this;
+    }
+    
+    /**
+     * Set the responseCode
+     *
+     * @param $code string The response code given by OmniKassa
+     *
+     * @return OmniKassaResponse
+     */
+    public function setResponseCode($code)
+    {
+        $this->responseCode = $code;
+        return $this;
+    }
+    
+    
+    /**
+     * Get the responseCode
+     *
+     * @return string
+     */
+    public function getResponseCode()
+    {
+        return $this->responseCode;
     }
 }
