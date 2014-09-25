@@ -2,8 +2,6 @@
 
 namespace stefantalen\OmniKassa;
 
-use stefantalen\OmniKassa\OmniKassaRequest;
-
 class OmniKassaOrder
 {
     /**
