@@ -82,6 +82,13 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         $this->order->setTransactionReference('aBcDeFgIijklmnopqrstuvwxyz!');
     }
     
+    public function testValidTransactionReference()
+    {
+        $this->assertSame(null, $this->order->getTransactionReference());
+        $this->order->setTransactionReference('aBcDeFgIijklmnopqrstuvwxyz');
+        $this->assertSame('aBcDeFgIijklmnopqrstuvwxyz', $this->order->getTransactionReference());
+    }
+    
     /**
      * @expectedException \LengthException
      */

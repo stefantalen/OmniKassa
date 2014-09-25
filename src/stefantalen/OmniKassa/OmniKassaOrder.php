@@ -135,20 +135,35 @@ class OmniKassaOrder
     }
     
     /**
-     * The transaction reference
+     * Set the transaction reference
+     *
      * @param $reference string The reference
-     * @return \LengthException|\InvalidArgumentException|OmniKassaOrder
+     *
+     * @return OmniKassaOrder
+     *
+     * @throws \LengthException if the reference is longer than 32 characters
+     * @throws \InvalidArgumentException if the reference contains non-alphanumeric characters
      */
     public function setTransactionReference($reference)
     {
         if (strlen($reference) > 32) {
             throw new \LengthException('The transactionReference has a maximum of 32 characters');
         }
-        if (!preg_match('/^[a-z0-9]+$/i', $reference)) {
+        if (!preg_match('/^[a-zA-Z0-9]+$/i', $reference)) {
             throw new \InvalidArgumentException('The transactionReference can only contain alphanumeric characters');
         }
         $this->transactionReference = $reference;
         return $this;
+    }
+    
+    /**
+     * Get the transaction reference
+     *
+     * @return string
+     */
+    public function getTransactionReference()
+    {
+        return $this->transactionReference;
     }
     
     /**
