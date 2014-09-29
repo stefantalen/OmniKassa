@@ -266,4 +266,29 @@ class OmniKassaResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('20140925022134', $response->getOrderId());
         $this->assertSame(OmniKassaEvents::SERVER_UNREACHABLE, $response->getResponseCode());
     }
+    
+
+    public function testTestMode()
+    {
+        $postRequest = array(
+            'Data' => 'amount=500|currencyCode=978|merchantId=002020000000001|normalReturnUrl=http://localhost/omnikassa/example/return.php|automaticResponseUrl=http://localhost/omnikassa/example/response.php|transactionReference=201409250221341|orderId=20140925022134|keyVersion=1|paymentMeanBrandList=IDEAL',
+            'InterfaceVersion' => 'HP_1.0',
+            'Seal' => '72962167db6643bab7b51f9928e7505c0621b98baa75bd2403e279a7a8992e77',
+        );
+        
+        $postResponse = array(
+            'Data' => 'amount=500|captureDay=0|captureMode=AUTHOR_CAPTURE|currencyCode=978|merchantId=002020000000001|orderId=20140925022134|transactionDateTime=2014-09-25T14:22:18+02:00|transactionReference=201409250221341|keyVersion=1|authorisationId=0020000006791167|paymentMeanBrand=IDEAL|paymentMeanType=CREDIT_TRANSFER|responseCode=90',
+            'Seal' => 'c3f8c4a72b50e2e59038ca9cff44c3349a3644530a64505eebfff56b5f254458',
+            'InterfaceVersion' => 'HP_1.0',
+            'Encode' => ''
+        );
+        $response = new OmniKassaResponse($postResponse);
+        $response
+            ->setSecretKey('002020000000001_KEY2')
+            ->enableTestMode()
+            ->validate()
+        ;
+        
+        $this->assertSame('002020000000001_KEY1', $response->getSecretKey());
+    }
 }

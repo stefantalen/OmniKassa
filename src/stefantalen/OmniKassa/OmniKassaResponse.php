@@ -93,13 +93,17 @@ class OmniKassaResponse extends OmniKassaOrder
         $this
             ->setCurrencyCode($data['currencyCode'])
             ->setAmount($data['amount'])
-            ->setMerchantId($data['merchantId'])
             ->setTransactionReference($data['transactionReference'])
-            ->setKeyVersion($data['keyVersion'])
             ->setOrderId($data['orderId'])
             ->setResponseCode($data['responseCode'])
             ->setTransactionDateTime($data['transactionDateTime'])
         ;
+        if (!$this->testMode) {
+            $this
+                ->setMerchantId($data['merchantId'])
+                ->setKeyVersion($data['keyVersion'])
+            ;
+        }
     }
     
     /**
