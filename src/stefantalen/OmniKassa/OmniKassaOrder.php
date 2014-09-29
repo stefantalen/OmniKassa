@@ -110,6 +110,17 @@ class OmniKassaOrder
         return $this;
     }
     
+    
+    /**
+     * Get the secret key
+     *
+     * @return string
+     */
+    public function getSecretKey()
+    {
+        return $this->secretKey;
+    }
+    
     /**
      * @param $currencyCode string
      * @return OmniKassaOrder
