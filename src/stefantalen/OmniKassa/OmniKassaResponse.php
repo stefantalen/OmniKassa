@@ -7,28 +7,28 @@ use stefantalen\OmniKassa\OmniKassaOrder;
 class OmniKassaResponse extends OmniKassaOrder
 {
     /**
-     * @var $data string
+     * @var string $data
      */
     protected $data;
     /**
-     * @var $seal string
+     * @var string $seal
      */
     protected $seal;
     
     /**
-     * @var $responseCode string
+     * @var string $responseCode
      */
     protected $responseCode;
     
     /**
-     * @var $transactionDateTime \DateTime
+     * @var \DateTime $transactionDateTime
      */
     protected $transactionDateTime;
     
     /**
      * Handle the POST array
      *
-     * @param $postArray The POST array
+     * @param array $postArray The POST array
      *
      * @throws \InvalidArgumentException if the Data key does not exist
      * @throws \InvalidArgumentException if the Seal key does not exist
@@ -65,8 +65,11 @@ class OmniKassaResponse extends OmniKassaOrder
     /**
      * Set the currency based in the code
      *
+     * @param string $code The currency code
+     *
      * @return OmniKassaResponse
      *
+     * @throws \InvalidArgumentException if the currency is not available
      */
     public function setCurrencyCode($code)
     {
@@ -80,7 +83,7 @@ class OmniKassaResponse extends OmniKassaOrder
     /**
      * Convert the Data string
      *
-     * @param $dataString string The Data string provided by OmniKassa
+     * @param string $dataString The Data string provided by OmniKassa
      */
     protected function handleData($dataString)
     {
@@ -114,7 +117,7 @@ class OmniKassaResponse extends OmniKassaOrder
     /**
      * Get the seal
      *
-     * @return string the seal
+     * @return string
      *
      * @throws \BadMethodCallException if no secret key is specified
      */
@@ -126,10 +129,14 @@ class OmniKassaResponse extends OmniKassaOrder
         return hash('sha256', utf8_encode($this->data. $this->secretKey));
     }
     
-     /**
+    /**
      * Set the amount of the order
-     * @param $amount string
-     * @return \LogicException|\InvalidArgumentException|OmniKassaResponse
+     *
+     * @param string $amount
+     *
+     * @return OmniKassaResponse
+     *
+     * @throws \InvalidArgumentException if the amount does not consist of numerics
      */
     public function setAmount($amount)
     {
@@ -153,7 +160,7 @@ class OmniKassaResponse extends OmniKassaOrder
     /**
      * Set the responseCode
      *
-     * @param $code string The response code given by OmniKassa
+     * @param string $code The response code given by OmniKassa
      *
      * @return OmniKassaResponse
      */
@@ -177,7 +184,7 @@ class OmniKassaResponse extends OmniKassaOrder
     /**
      * Set the transaction date and time
      *
-     * @param $datetime string The transaction date time string in ISO 8601 format
+     * @param string $datetime The transaction date time string in ISO 8601 format
      *
      * @return OmniKassaResponse
      *

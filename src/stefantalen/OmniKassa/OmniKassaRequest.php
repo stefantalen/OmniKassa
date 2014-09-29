@@ -7,37 +7,37 @@ use stefantalen\OmniKassa\OmniKassaOrder;
 class OmniKassaRequest extends OmniKassaOrder
 {
     /**
-     * @var $interfaceVersion string
+     * @var string $interfaceVersion
      */
     protected $interfaceVersion = 'HP_1.0';
     
     /**
-     * @var $normalReturnUrl string
+     * @var string $normalReturnUrl
      */
     protected $normalReturnUrl;
     
     /**
-     * @var $automaticResponseUrl string
+     * @var string $automaticResponseUrl
      */
     protected $automaticResponseUrl;
     
     /**
-     * @var $customerLanguage string
+     * @var string $customerLanguage
      */
     protected $customerLanguage;
     
     /**
-     * @var $paymentMeanBrandList array
+     * @var array $paymentMeanBrandList
      */
     protected $paymentMeanBrandList;
     
     /**
-     * @var $expirationDate string
+     * @var string $expirationDate
      */
     protected $expirationDate;
     
     /**
-     * @var $actionUrl string
+     * @var string $actionUrl
      */
     protected $actionUrl = "https://payment-webinit.omnikassa.rabobank.nl/paymentServlet";
 
@@ -49,6 +49,7 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Get the interface version
+     *
      * @return string
      */
     public function getInterfaceVersion()
@@ -59,8 +60,8 @@ class OmniKassaRequest extends OmniKassaOrder
     /**
      * Encodes the given URL according to RFC 3986 and checks the length
      *
-     * @param $url string The URL
-     * @param $property string The property that is being checked
+     * @param string $url The URL
+     * @param string $property The property that is being checked
      *
      * @return string
      *
@@ -76,7 +77,9 @@ class OmniKassaRequest extends OmniKassaOrder
     }
     
     /**
-     * @param $url string The URL where the user returns after the payment
+     * Set the URL where the user should return after te payment
+     *
+     * @param string $url The URL where the user returns after the payment
      *
      * @return OmniKassaRequest
      */
@@ -87,7 +90,9 @@ class OmniKassaRequest extends OmniKassaOrder
     }
     
     /**
-     * @return string The URL where the user returns after the payment
+     * Get the URL where the user returns after the payment
+     *
+     * @return string
      */
     public function getNormalReturnUrl()
     {
@@ -95,7 +100,9 @@ class OmniKassaRequest extends OmniKassaOrder
     }
     
     /**
-     * @param $url string The URL where the cronjob returns after the payment
+     * Set the URL where the cronjob returns after the payment
+     *
+     * @param string $url The URL where the cronjob returns after the payment
      *
      * @return OmniKassaRequest
      */
@@ -106,7 +113,9 @@ class OmniKassaRequest extends OmniKassaOrder
     }
     
     /**
-     * @return string The URL where the user returns after the payment
+     * Get the URL where the user returns after the payment
+     *
+     * @return string 
      */
     public function getAutomaticResponseUrl()
     {
@@ -115,8 +124,14 @@ class OmniKassaRequest extends OmniKassaOrder
     
     
     /**
-     * @param $language string The language in which the payment portal should be shown
+     * Set the language of the payment portal
+     *
+     * @param string $language The language in which the payment portal should be shown
+     *
      * @return OmniKassaRequest
+     *
+     * @throws \InvalidArgumentException if the language does not comply to the ISO 639-1 standard
+     * @throws \InvalidArgumentException if the language is not available
      */
     public function setCustomerLanguage($language)
     {
@@ -147,6 +162,7 @@ class OmniKassaRequest extends OmniKassaOrder
     
     /**
      * Get the customer language
+     *
      * @return string
      */
     public function getCustomerLanguage()
@@ -157,7 +173,7 @@ class OmniKassaRequest extends OmniKassaOrder
     /**
      * Set the paymentMeanBrandList
      *
-     * @param $list array An array of payment methods
+     * @param array $list An array of payment methods
      *
      * @return OmniKassaRequest
      *
@@ -180,7 +196,7 @@ class OmniKassaRequest extends OmniKassaOrder
     /**
      * Add an element to the paymentMeanBrandList
      *
-     * @param $list array An array of payment methods
+     * @param string $paymentMethod A payment method
      *
      * @return OmniKassaRequest
      *
@@ -224,7 +240,7 @@ class OmniKassaRequest extends OmniKassaOrder
     /**
      * Set the expiration date in ISO 8601 format
      *
-     * @param $expirationDate \DateTime The date the payment expires
+     * @param \DateTime $expirationDate The date the payment expires
      *
      * @return OmniKassaRequest
      *
@@ -250,9 +266,9 @@ class OmniKassaRequest extends OmniKassaOrder
     }
     
     /**
-     * Get all the data
+     * Get a formatted string containing all data according to the OmniKassa requirement
      *
-     * @return string Formatted string containing all data according to the OmniKassa requirement
+     * @return string
      *
      * @throws \BadMethodCallException if no currency is specified
      * @throws \BadMethodCallException if no amount is specified
@@ -311,7 +327,7 @@ class OmniKassaRequest extends OmniKassaOrder
     /**
      * Get the seal
      *
-     * @return string the seal
+     * @return string
      *
      * @throws \BadMethodCallException if no secret key is specified
      */

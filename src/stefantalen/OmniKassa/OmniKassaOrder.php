@@ -5,7 +5,7 @@ namespace stefantalen\OmniKassa;
 class OmniKassaOrder
 {
     /**
-     * @var $currencyCodes
+     * @var array $currencyCodes
      */
     protected $currencyCodes = array(
         'EUR' => '978',
@@ -21,59 +21,59 @@ class OmniKassaOrder
     );
 
     /**
-     * @var $merchantId string
+     * @var string $merchantId
      */
     protected $merchantId;
     
     /**
-     * @var $secretKey string
+     * @var string $secretKey
      */
     protected $secretKey;
     
     /**
-     * @var $currency string
+     * @var string $currency
      */
     protected $currency;
     
     /**
-     * @var $transactionReference string
+     * @var string $transactionReference
      */
     protected $transactionReference;
     
     /**
-     * @var $keyVersion string
+     * @var string $keyVersion
      */
     protected $keyVersion;
     
     /**
-     * @var $amount string
+     * @var string $amount
      */
     protected $amount;
     
     /**
-     * @var $orderId string
+     * @var string $orderId
      */
     protected $orderId;
     
     /**
-     * @var $captureDay int
+     * @var int $captureDay
      */
     protected $captureDay;
     
     /**
-     * @var $captureMode string
+     * @var string $captureMode
      */
     protected $captureMode;
         
     /**
-     * @var $testMode boolean
+     * @var boolean $testMode
      */
     protected $testMode = false;
     
     /**
      * Set the merchant id provided by OmniKassa
      *
-     * @param $id string The id
+     * @param string $id The id
      *
      * @return OmniKassaOrder
      *
@@ -95,7 +95,7 @@ class OmniKassaOrder
     /**
      * Set the secret key provided by OmniKassa
      *
-     * @param $key string The secret key
+     * @param string $key The secret key
      *
      * @return OmniKassaOrder
      
@@ -122,7 +122,8 @@ class OmniKassaOrder
     }
     
     /**
-     * @param $currencyCode string
+     * @param string $currencyCode
+     *
      * @return OmniKassaOrder
      */
     public function setCurrency($currencyCode)
@@ -146,7 +147,7 @@ class OmniKassaOrder
     /**
      * Set the transaction reference
      *
-     * @param $reference string The reference
+     * @param string $reference The reference
      *
      * @return OmniKassaOrder
      *
@@ -177,7 +178,8 @@ class OmniKassaOrder
     
     /**
      * The version number of the secret key, can be found on the OmniKassa website
-     * @param $version string The version number
+     *
+     * @param string $version The version number
      *
      * @return OmniKassaOrder
      *
@@ -198,8 +200,13 @@ class OmniKassaOrder
     
     /**
      * Set the amount of the order
-     * @param $amount string
-     * @return \LogicException|\InvalidArgumentException|OmniKassaOrder
+     *
+     * @param string $amount
+     *
+     * @return OmniKassaOrder
+     *
+     * @throws \LogicException if there hasn't been a currency supplied
+     * @throws \InvalidArgumentException if the amount is not in the right format
      */
     public function setAmount($amount)
     {
@@ -229,6 +236,8 @@ class OmniKassaOrder
     }
     
     /**
+     * Get the amount
+     *
      * @return string
      */
     public function getAmount()
@@ -239,7 +248,7 @@ class OmniKassaOrder
     /**
      * Set the order ID to give the transaction a reference
      *
-     * @param $orderId string The order ID
+     * @param string $orderId The order ID
      *
      * @return OmniKassaOrder
      *
