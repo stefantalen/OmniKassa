@@ -128,10 +128,6 @@ class OmniKassaResponse extends OmniKassaOrder
      */
     public function setAmount($amount)
     {
-        // A currency must be set
-        if (null === $this->currency) {
-            throw new \LogicException('Please set a currency first');
-        }
         // Check if the amount is a valid value
         if (!preg_match('/^[0-9]*$/', $amount)) {
             throw new \InvalidArgumentException('The amount can only contain numerics');
@@ -156,7 +152,7 @@ class OmniKassaResponse extends OmniKassaOrder
      *
      * @return OmniKassaResponse
      */
-    public function setResponseCode($code)
+    protected function setResponseCode($code)
     {
         $this->responseCode = $code;
         return $this;
