@@ -327,7 +327,6 @@ class OmniKassaOrder
      */
     public function enableTestMode()
     {
-        $this->actionUrl = "https://payment-webinit.simu.omnikassa.rabobank.nl/paymentServlet";
         $this->setMerchantId('002020000000001');
         $this->setSecretKey('002020000000001_KEY1');
         $this->setKeyVersion('1');

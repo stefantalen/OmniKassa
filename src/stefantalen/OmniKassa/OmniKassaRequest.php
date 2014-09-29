@@ -332,4 +332,14 @@ class OmniKassaRequest extends OmniKassaOrder
     {
         return $this->actionUrl;
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function enableTestMode()
+    {
+        parent::enableTestMode();
+        $this->actionUrl = "https://payment-webinit.simu.omnikassa.rabobank.nl/paymentServlet";
+        return $this;
+    }
 }
