@@ -106,6 +106,7 @@ class OmniKassaResponse extends OmniKassaOrder
             $this
                 ->setResponseCode($data['responseCode'])
                 ->setTransactionDateTime($data['transactionDateTime'])
+            ;
         }
         
     }
