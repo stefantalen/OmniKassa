@@ -201,7 +201,7 @@ class OmniKassaOrder
     /**
      * Set the amount of the order
      *
-     * @param string $amount
+     * @param mixed $amount
      *
      * @return OmniKassaOrder
      *
@@ -213,6 +213,9 @@ class OmniKassaOrder
         // A currency must be set
         if (null === $this->currency) {
             throw new \LogicException('Please set a currency first');
+        }
+        if(is_float($amount)) {
+            $amount = number_format($amount, 2);
         }
         // Check if the amount is a valid value
         if (!preg_match('/^([0-9]+)(\.{1}[0-9]{1,2})?$/', $amount, $matches)) {

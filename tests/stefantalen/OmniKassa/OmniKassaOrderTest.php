@@ -149,6 +149,7 @@ class OmniKassaOrderTest extends \PHPUnit_Framework_TestCase
         return array(
             array('EUR', '1', '100'),
             array('EUR', '1.00', '100'),
+            array('EUR', 12.50, '1250'),
             array('EUR', '0.99', '99'),
             array('EUR', '24.99', '2499'),
             array('EUR', '2499.00', '249900'),
